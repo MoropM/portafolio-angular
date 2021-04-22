@@ -10,22 +10,31 @@ export class InfoPaginaService {
   info: InfoPagina = {};
   cargada = false;
 
+  equipo: any [] = [];
 
   constructor( private http: HttpClient ) { 
     // this.uri = 'http://soporte19mf.x10.mx/DB2021/v1/articulos';
-    // this.uri = 'assets/data/data-pagina.json';
+    this.cargarInfo();
+    this.cargarEquipo();
 
-    // Leer el archivo Json
+  }
+
+  private cargarInfo() {
+     // Leer el archivo Json
     this.http.get('assets/data/data-pagina.json')
       .subscribe( (resp: InfoPagina )=> {
         this.cargada = true;
         this.info = resp;
-
-        // console.log(resp.pagina_autor)
-
-        // console.log(this.info['twtter'])
       });
-
-
   }
+
+  private cargarEquipo() {
+    this.http.get('https://angular-html-ef764-default-rtdb.firebaseio.com/equipo.json')
+      .subscribe( ( resp: any [] ) => {
+        this.cargada = true;
+        this.equipo = resp;
+        console.log(resp)
+      });
+  }
+
 }
